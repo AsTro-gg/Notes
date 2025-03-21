@@ -11,7 +11,3 @@ class Note(models.Model):
     description = models.TextField()
     category = models.ForeignKey(NoteCategory, on_delete=models.SET_NULL,null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
-
-class gukha(models.Model):
-    name = models.CharField(max_length=200)
-    category = models.ForeignKey(Note,on_delete=models.SET_NULL,null=True)
