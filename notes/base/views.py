@@ -1,28 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import Note
 from .models import NoteCategory
 from .forms import NoteCategoryForm
+from .forms import NoteForm
 
 # Create your views here.
 
 def home(request):
-    note_objs = Note.objects.all()
-    notecategory_objs = NoteCategory.objects.all()
+    note_objs = Note.objects.all().order_by('id')
+    notecategory_objs = NoteCategory.objects.all().order_by('id')
     data  = {'notes':note_objs,'notecategories':notecategory_objs}
     return render(request,'index.html',context=data)
     
 def create_note(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        description = request.POST.get('description')
-        category_id= request.POST.get('category')
-        notecategory_obj = NoteCategory.objects.get(id=category_id) # This is a relation field so, we import its id.
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            form.save()
+    form = NoteForm
+    data = {'form':form}
+    return render(request,'create_note.html',context=data)
+    
 
-        Note.objects.create(name=name,description=description,category=notecategory_obj)
-    note_category = NoteCategory.objects.all()
-    notecategory_data = {'categories': note_category}
-    return render(request,'create_note.html',context=notecategory_data)
+
 
 def create_notecategory(request):
     if request.method == 'POST':
@@ -32,3 +33,29 @@ def create_notecategory(request):
     form = NoteCategoryForm
     data = {'form':form}
     return render(request,'create_notecategory.html',context=data)
+
+def edit_notecategory(request,pk):
+    note_category_obj =NoteCategory.objects.get(id=pk)
+    if request.method == 'POST':
+        form = NoteCategoryForm(request.POST,instance=note_category_obj)
+        if form.is_valid():
+            form.save()
+    form = NoteCategoryForm(instance=note_category_obj)
+    data = {'form':form}
+    return render(request,'edit_notecategory.html',context=data)
+
+def edit_note(request,pk):
+    if request.method == 'POST':
+        note_obj = Note.objects.get(id=pk)
+        form = NoteForm(request.POST,instance=note_obj)
+        if form.is_valid():
+            form.save()
+    form = NoteForm()
+    data = {'form':form}
+    return render(request,'edit_note.html',context=data)
+
+def delete_notecategory(request,pk):
+    notecategory = NoteCategory.objects.get(pk=id)
+    notecategory.delete()
+    return redirect('Homepage')
+        

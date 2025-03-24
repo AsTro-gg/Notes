@@ -24,6 +24,7 @@
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">Category</th>
+            <th><a href="{% url 'create_note' %}"><button type="submit" class="btn btn-success" >Create</button></th></a>
           </tr>
         </thead>
         <tbody>
@@ -33,6 +34,8 @@
                     <td>{{i.name}}</td>
                     <td>{{i.description}}</td>
                     <td>{{i.category}}</td>
+                    <td><a href="{% url 'edit_note' pk=i.id %}"><button type="submit" class="btn btn-warning">Edit</button> <button type="submit" class="btn btn-danger">Delete</button></td>
+                    
                 </tr>
             {% endfor %}
         </tbody>
@@ -43,6 +46,11 @@
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
+            <th scope="col"> Action</th>
+            <form method="post">
+              {%csrf_token%}
+            <th><a href="{% url 'create_notecategory'%}"><button type="submit" class="btn btn-success" >Create</button></th></a>
+          </form>
           </tr>
         </thead>
         <tbody>
@@ -50,6 +58,7 @@
                 <tr>
                     <th scope="row">{{i.id}}</th>
                     <td>{{i.name}}</td>
+                    <td><a href="{% url 'edit_notecategory' pk=i.id  %}"><button type="submit" class="btn btn-warning">Edit</button></a> <button type="submit" class="btn btn-danger">Delete</button></td>
                 </tr>
             {% endfor %}
         </tbody>
