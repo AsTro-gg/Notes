@@ -17,8 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from base.views import home
-from base.views import create_note,create_notecategory,edit_notecategory,edit_note,delete_notecategory,delete_note
-
+from base.views import create_note,create_notecategory,edit_notecategory,edit_note,delete_notecategory,delete_note,register,loginpage,user_logout
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',home , name = 'Homepage'),
@@ -27,5 +26,8 @@ urlpatterns = [
     path('edit-notecategory/<int:pk>/',edit_notecategory , name = 'edit_notecategory'),
     path('edit-note/<int:pk>/',edit_note, name='edit_note'),
     path('delete-notecategory/<int:pk>/',delete_notecategory,name= 'delete_notecategory'),
-    path('delete-note/<int:pk>/', delete_note ,name='delete_note')
+    path('delete-note/<int:pk>/', delete_note ,name='delete_note'),
+    path('register/',register,name = 'register'),
+    path('loginpage/',loginpage,name='loginpage'),
+    path('logout/',user_logout,name ='logout')
 ]
