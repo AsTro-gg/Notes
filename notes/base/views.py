@@ -23,8 +23,6 @@ def create_note(request):
     return render(request,'create_note.html',context=data)
     
 
-
-
 def create_notecategory(request):
     if request.method == 'POST':
         form = NoteCategoryForm(request.POST)
@@ -45,17 +43,21 @@ def edit_notecategory(request,pk):
     return render(request,'edit_notecategory.html',context=data)
 
 def edit_note(request,pk):
+    note_obj = Note.objects.get(id=pk)
     if request.method == 'POST':
-        note_obj = Note.objects.get(id=pk)
         form = NoteForm(request.POST,instance=note_obj)
         if form.is_valid():
             form.save()
-    form = NoteForm()
+    form = NoteForm(instance=note_obj)
     data = {'form':form}
     return render(request,'edit_note.html',context=data)
 
 def delete_notecategory(request,pk):
-    notecategory = NoteCategory.objects.get(pk=id)
+    notecategory = NoteCategory.objects.get(id=pk)
     notecategory.delete()
     return redirect('Homepage')
         
+def delete_note(request,pk):
+    note = Note.objects.get(id=pk)
+    note.delete()
+    return redirect('Homepage')

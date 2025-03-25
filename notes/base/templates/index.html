@@ -34,9 +34,28 @@
                     <td>{{i.name}}</td>
                     <td>{{i.description}}</td>
                     <td>{{i.category}}</td>
-                    <td><a href="{% url 'edit_note' pk=i.id %}"><button type="submit" class="btn btn-warning">Edit</button> <button type="submit" class="btn btn-danger">Delete</button></td>
+                    <td><a href="{% url 'edit_note' pk=i.id%}"><button type="submit" class="btn btn-warning">Edit</button></a> <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal{{i.id}}">Delete</button></td>
                     
                 </tr>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal{{i.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel{{i.id}}">Delete Note</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure you want to delete?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <a href="{% url 'delete_note' pk=i.id %}"><button type="button" class="btn btn-primary">Yes</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             {% endfor %}
         </tbody>
       </table>
@@ -48,9 +67,9 @@
             <th scope="col">Name</th>
             <th scope="col"> Action</th>
             <form method="post">
-              {%csrf_token%}
-            <th><a href="{% url 'create_notecategory'%}"><button type="submit" class="btn btn-success" >Create</button></th></a>
-          </form>
+              {% csrf_token %}
+              <th><a href="{% url 'create_notecategory' %}" class="btn btn-success">Create</a></th>
+            </form>
           </tr>
         </thead>
         <tbody>
@@ -58,8 +77,25 @@
                 <tr>
                     <th scope="row">{{i.id}}</th>
                     <td>{{i.name}}</td>
-                    <td><a href="{% url 'edit_notecategory' pk=i.id  %}"><button type="submit" class="btn btn-warning">Edit</button></a> <button type="submit" class="btn btn-danger">Delete</button></td>
+                    <td><a href="{% url 'edit_notecategory' pk=i.id  %}"><button type="submit" class="btn btn-warning">Edit</button></a> <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{i.id}}">Delete</button></td>
                 </tr>
+                <div class="modal fade" id="staticBackdrop{{i.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel{{i.id}}">Delete Note Category</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure you want to delete?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <a href="{%url 'delete_notecategory' pk=i.id%}"><button type="button" class="btn btn-primary">Yes</button></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             {% endfor %}
         </tbody>
       </table>

@@ -5,9 +5,9 @@ from .models import Note
 class NoteCategoryForm(forms.ModelForm):
     class Meta:
         model = NoteCategory
-        fields = '__all__'
+        fields = ['name']
         widgets = {
-            'name': forms.TextInput(attrs={'class':'form-control'})
+            'name': forms.TextInput(attrs={'class':'form-control' } )
         }
 
 
